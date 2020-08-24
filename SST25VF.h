@@ -32,7 +32,7 @@ class SST25VF {
 public: 
 
 	SST25VF();
-    void begin(int chipSelect,int writeProtect,int hold);
+    void begin(int chipSelect,int writeProtect=-1,int hold=-1);
     void update();
 	void readID();
 	void totalErase();

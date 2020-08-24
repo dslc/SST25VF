@@ -19,27 +19,30 @@ SST25VF::SST25VF(){
  
 
 void SST25VF::begin(int chipSelect,int writeProtect,int hold){
-	
-	//set pin #s
-	FLASH_SSn = chipSelect;
-	FLASH_Wp = writeProtect;
-	FLASH_Hold = hold; 
-	
-  pinMode(FLASH_Wp, OUTPUT); 
-  digitalWrite(FLASH_Wp, HIGH); //write protect off
+    //set pin #s
+    FLASH_SSn = chipSelect;
+    FLASH_Wp = writeProtect;
+    FLASH_Hold = hold; 
 
-  pinMode(FLASH_Hold, OUTPUT); 
-  digitalWrite(FLASH_Hold, HIGH); //mem hold off
+    if (FLASH_Wp != -1) {    
+        pinMode(FLASH_Wp, OUTPUT); 
+        digitalWrite(FLASH_Wp, HIGH); //write protect off
+    }
 
-  pinMode(FLASH_SSn, OUTPUT); //chip select 
-  digitalWrite(FLASH_SSn, HIGH);
-  digitalWrite(FLASH_SSn, LOW);
-  
-  sstSPISettings = SPISettings(SST25VF_SPI_CLOCK, SST25VF_SPI_BIT_ORDER, SST25VF_SPI_MODE);
-  SPI.begin();
-	SPI.usingInterrupt(255);
-  init(); 
-	readID();
+    if (FLASH_Hold != -1) {
+        pinMode(FLASH_Hold, OUTPUT); 
+        digitalWrite(FLASH_Hold, HIGH); //mem hold off
+    }
+
+    pinMode(FLASH_SSn, OUTPUT); //chip select 
+    digitalWrite(FLASH_SSn, HIGH);
+    digitalWrite(FLASH_SSn, LOW);
+
+    sstSPISettings = SPISettings(SST25VF_SPI_CLOCK, SST25VF_SPI_BIT_ORDER, SST25VF_SPI_MODE);
+    SPI.begin();
+    SPI.usingInterrupt(255);
+    init(); 
+    readID();
 }
  
 
