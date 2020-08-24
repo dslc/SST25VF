@@ -42,7 +42,6 @@ void SST25VF::begin(int chipSelect,int writeProtect,int hold){
     SPI.begin();
     SPI.usingInterrupt(255);
     init(); 
-    readID();
 }
 
 
@@ -91,19 +90,14 @@ void SST25VF::init()
 
 // ======================================================================================= //
 
-void SST25VF::readID()
+void SST25VF::readID(uint8_t *id, uint8_t *mtype, uint8_t *dev)
 {
-    uint8_t id, mtype, dev;
     SPI.beginTransaction(sstSPISettings);
     digitalWrite(FLASH_SSn,LOW);
     (void) SPI.transfer(0x9F); // Read ID command
-    id = SPI.transfer(0);
-    mtype = SPI.transfer(0);
-    dev = SPI.transfer(0);
-    char buf[16] = {0};
-    sprintf(buf, "%02X %02X %02X", id, mtype, dev);
-    Serial.print("SPI ID ");
-    Serial.println(buf);
+    *id = SPI.transfer(0);
+    *mtype = SPI.transfer(0);
+    *dev = SPI.transfer(0);
     digitalWrite(FLASH_SSn,HIGH);
     SPI.endTransaction();;
 }

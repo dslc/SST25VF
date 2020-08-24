@@ -34,7 +34,7 @@ public:
 	SST25VF();
     void begin(int chipSelect,int writeProtect=-1,int hold=-1);
     void update();
-	void readID();
+	void readID(uint8_t *id, uint8_t *mtype, uint8_t *dev);
 	void totalErase();
 	void sectorErase(uint8_t sectorAddress);
 	
@@ -51,7 +51,6 @@ public:
 private: 
 	
 	void init();
-	char buf[16];
 	uint8_t FLASH_SSn; //chip select pin
 	uint8_t FLASH_Wp;  //Write protection pin
 	uint8_t FLASH_Hold; //read/write hold pin (pause)
